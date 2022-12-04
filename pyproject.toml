@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "get-steam-info"
+version = "0.1.0"
+description = ""
+authors = ["trafalgar <manjaro_san@protonmail.com>"]
+readme = "README.md"
+packages = [{include = "get_steam_info"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "3.0.0b6"
+environs = "^9.5.0"
+alembic = "^1.8.1"
+asyncpg = "^0.27.0"
+greenlet = "^2.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
