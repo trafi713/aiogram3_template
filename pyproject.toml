@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "aiogram3-template"
+version = "1.0.0"
+description = ""
+authors = ["Crimson <@crimson713>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+environs = "^11.0.0"
+aiogram = "^3.7.0"
+alembic = "^1.13.1"
+asyncpg = "^0.29.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
