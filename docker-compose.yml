@@ -23,7 +23,7 @@ services:
 #    depends_on:
 #      - db
 #    env_file: .env
-#    command: sh -c "python -m alembic upgrade head"
+#    command: sh -c "python -m migrations upgrade head"
 #    bot:
 #        container_name: tgbot
 #        build:

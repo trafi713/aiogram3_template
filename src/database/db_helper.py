@@ -8,3 +8,4 @@ def get_async_session():
     engine = create_async_engine(config.db.connection_url())
     async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
     return async_session_maker
+

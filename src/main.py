@@ -10,7 +10,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from src import load_config
 from src.handlers import register_routes
 from src.middlewares import register_global_middlewares
-from src.settings.db_setup import get_async_session
+from src.database.db_helper import get_async_session
 
 logger = logging.getLogger(__name__)
 
