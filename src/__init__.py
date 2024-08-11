@@ -1,1 +1,1 @@
-from .config import load_config, Config
+from src.settings.config import load_config, Config

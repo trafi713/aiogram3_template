@@ -1,5 +1,5 @@
 from src import Config, load_config
-from src.models import *
+from src.database.models import *
 
 import asyncio
 from logging.config import fileConfig

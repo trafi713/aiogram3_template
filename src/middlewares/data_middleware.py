@@ -3,7 +3,7 @@ from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware
 from aiogram.types import Message
 
-from src.services.repository import Repo
+from src.database.repository import Repo
 
 
 class SessionDataMiddleware(BaseMiddleware):
