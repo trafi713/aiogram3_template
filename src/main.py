@@ -5,39 +5,53 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from aiogram.fsm.storage.memory import MemoryStorage
 
-from src import load_config
-from src.handlers import register_routes
+from aiogram.fsm.storage.redis import (
+    Redis,
+    RedisStorage,
+    DefaultKeyBuilder
+)
+
+from src import settings
+from src.database import db_helper
+from src.handlers import router as handlers
 from src.middlewares import register_global_middlewares
-from src.database.db_helper import get_async_session
 
 logger = logging.getLogger(__name__)
 
 
 async def main() -> None:
-    config = load_config()
-    storage = MemoryStorage()
+    storage = RedisStorage(
+        Redis(
+            host=settings.redis.host,
+            port=settings.redis.port,
+            db=settings.redis.db,
+        ),
+        key_builder=DefaultKeyBuilder(with_destiny=True)
+    )
 
-    bot = Bot(token=config.tg.token, default=DefaultBotProperties(
+    bot = Bot(token=settings.tg.token, default=DefaultBotProperties(
         parse_mode=ParseMode.HTML,
     ))
 
-    dp = Dispatcher(storage=storage)
+    dp = Dispatcher(
+        storage=storage,
+        events_isolation=storage.create_isolation()
+    )
 
-    session_pool = get_async_session()
 
     # Register middlewares
-    register_global_middlewares(dp, session_pool)
+    register_global_middlewares(dp)
 
-    # Register routes
-    register_routes(dp)
+    # include main router
+    dp.include_router(handlers)
 
     try:
         await dp.start_polling(bot)
     finally:
         await bot.session.close()
         await storage.close()
+        await db_helper.dispose()
 
 
 if __name__ == '__main__':

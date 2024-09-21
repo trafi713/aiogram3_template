@@ -3,12 +3,12 @@ from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware
 from aiogram.types import Message
 
+from src.database import db_helper
 from src.database.repository import Repo
 
 
 class DatabaseMiddleware(BaseMiddleware):
-    def __init__(self, session_pool) -> None:
-        self.session_pool = session_pool
+
 
     async def __call__(
             self,
@@ -16,7 +16,7 @@ class DatabaseMiddleware(BaseMiddleware):
             event: Message,
             data: Dict[str, Any]
     ) -> Any:
-        async with self.session_pool() as session:
+        async with db_helper.session_factory() as session:
             data['session'] = session
             data['repo'] = Repo(session)
 

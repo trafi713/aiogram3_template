@@ -3,9 +3,10 @@ from aiogram.filters import CommandStart
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.models import User
+from src.filters.is_private import IsChatPrivateFilter
 
 router = Router()
-
+router.message.filter(IsChatPrivateFilter())
 
 @router.message(CommandStart())
 async def start_handler(message: types.Message,

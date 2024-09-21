@@ -1,1 +1,2 @@
-from src.settings.config import load_config, Config
+from src.config.settings import settings, BASE_DIR
+

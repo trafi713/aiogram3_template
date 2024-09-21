@@ -1,4 +1,4 @@
-from src import Config, load_config
+from src import settings
 from src.database.models import *
 
 import asyncio
@@ -25,11 +25,10 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
 
-bot_config: Config = load_config()
 
 config.set_main_option(
     'sqlalchemy.url',
-    bot_config.db.connection_url()
+    settings.db.connection_url()
 )
 
 

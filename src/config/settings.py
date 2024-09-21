@@ -1,16 +1,17 @@
-from dataclasses import dataclass
+from pathlib import Path
 
 from environs import Env
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
-
-@dataclass
-class TgConfig:
+class TgConfig(BaseModel):
     token: str
 
 
-@dataclass
-class DbConfig:
+class DbConfig(BaseModel):
     database: str
     user: str
     password: str
@@ -24,17 +25,23 @@ class DbConfig:
         )
 
 
-@dataclass
-class Config:
+class RedisConfig(BaseModel):
+    host: str
+    port: int
+    db: int
+
+
+class Settings(BaseSettings):
     tg: TgConfig
     db: DbConfig
+    redis: RedisConfig
 
 
-def load_config() -> Config:
+def load_settings() -> Settings:
     env = Env()
     env.read_env()
 
-    return Config(
+    return Settings(
         tg=TgConfig(
             token=env.str("BOT_TOKEN"),
         ),
@@ -44,5 +51,13 @@ def load_config() -> Config:
             password=env.str("DB_PASS"),
             host=env.str("DB_HOST"),
             port=env.int("DB_PORT"),
+        ),
+        redis=RedisConfig(
+            host=env.str("REDIS_HOST"),
+            port=env.int("REDIS_PORT"),
+            db=env.int("REDIS_DB"),
         )
     )
+
+
+settings = load_settings()
